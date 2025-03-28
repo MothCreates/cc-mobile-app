@@ -4,15 +4,37 @@ import { router } from "expo-router";
 
 import LoadingPage from "./components/loading-page";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Prompts from "./components/prompts";
+import { supabase } from "@/lib/supabase";
+import { Session } from "@supabase/supabase-js";
+import Auth from "./(auth)/Auth";
 
 
 export default function Index() {
- 
+
   const [isLoading, setIsLoading] = useState(true)
   const [selectedPrompt, setSelectedPrompt] = useState<string | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+
+    console.log('session', session)
+  }, [])
+
+  if (!session) {
+    return <Auth />
+  }
+
+
+  
  console.log('index loaded')
 
  setTimeout(() => {
@@ -27,7 +49,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
    
-    {isLoading ? <LoadingPage /> : <Prompts setSelectedPrompt={setSelectedPrompt} />}
+    {isLoading ? <LoadingPage /> : <Prompts setSelectedPrompt={setSelectedPrompt} isUpdate={false} />}
 
     </SafeAreaView>
   );
@@ -35,6 +57,7 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   container: {
+ 
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

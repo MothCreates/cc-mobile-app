@@ -5,6 +5,7 @@ export default function LoadingPage() {
     <View style={styles.container}>
       <Text style={styles.text}>Pissed off?</Text>
       <ActivityIndicator size="large" color="#ff4c4c" />
+      
     </View>
   );
 }
