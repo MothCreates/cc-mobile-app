@@ -1,7 +1,10 @@
 import { StyleSheet, Text, TextInput, View, Pressable, } from "react-native";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { createJournalEntry } from "../../lib/functions";
 import { router } from "expo-router";
+import ExitButton from "./buttons/exit";
+import DoneButton from "./buttons/done";
+import ThemeContext from "../theme/themeContext";
 interface JournalProps {
   setSelectedPrompt: (prompt: string) => void
   isUpdate: boolean
@@ -9,9 +12,9 @@ interface JournalProps {
 
 // this takes a parameter setSelectedPrompt and is a react component with parent app/index.tsx
 //TODO add isUpdate to the component
-const Journal : React.FC<JournalProps> = ({ setSelectedPrompt }) => {
+const NewJournalEntry : React.FC<JournalProps> = ({ setSelectedPrompt }) => {
 
-
+   const { theme } = useContext(ThemeContext)
   const [newPrompt, setNewPrompt] = useState<string | null>(null)
 
   
@@ -30,20 +33,23 @@ const onSubmit = (prompt: string | null) => {
     })
    
   }
-}
-
+} 
+// 3 layer grid layout
+// 1. row of buttons at the top
+// 2. input field in the middle
+// 3. 
   return (
     <View style={styles.container}>
-      <View style={styles.ventContainer}>
-      <Pressable style={styles.submitButton} onPress={() => onSubmit(newPrompt)}>
-            <Text style={styles.submitButtonText}>Done</Text>
-          </Pressable>
-          <Text style={styles.prompt}>Vent</Text>
+      <View style={styles.topRow}>
+        <ExitButton />
+        <Text style={[styles.prompt, { color: theme.color }]}>Vent</Text>
+        <DoneButton onSubmit={onSubmit} newPrompt={newPrompt} />
+ 
   
       </View>
       <View style={styles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { color: theme.color }]}
             multiline={true}
             onChangeText={setNewPrompt}
             placeholder={examplePrompts}
@@ -67,11 +73,12 @@ const styles = StyleSheet.create({
  
     marginBottom: 10,
   },
-  ventContainer : {
+  topRow : {
     height: 100,
-
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: 400,
-    justifyContent: 'center',
+    
     alignItems: 'center',
     
   },
@@ -109,6 +116,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Journal;
+export default NewJournalEntry;
 
 

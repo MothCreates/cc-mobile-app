@@ -1,17 +1,19 @@
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
+
 import { router } from "expo-router";
 
 import LoadingPage from "./components/loading-page";
 
 import { useEffect, useState } from "react";
-import Prompts from "./components/prompts";
+import NewJournalEntry from "./components/NewJournalEntry";
 import { supabase } from "@/lib/supabase";
 import { Session } from "@supabase/supabase-js";
 import Auth from "./(auth)/Auth";
 
 
 export default function Index() {
+  
 
   const [isLoading, setIsLoading] = useState(true)
   const [selectedPrompt, setSelectedPrompt] = useState<string | null>(null)
@@ -49,7 +51,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
    
-    {isLoading ? <LoadingPage /> : <Prompts setSelectedPrompt={setSelectedPrompt} isUpdate={false} />}
+    {isLoading ? <LoadingPage /> : <NewJournalEntry setSelectedPrompt={setSelectedPrompt} isUpdate={false} />}
 
     </SafeAreaView>
   );
