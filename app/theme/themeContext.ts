@@ -6,6 +6,8 @@ type Theme = {
     text: string;
     color: string;
     buttonText: string;
+    secondaryColor: string;
+    secondaryBackground: string;
 }
 
 type ThemeContextType = {
@@ -17,7 +19,9 @@ const ThemeContext = createContext<ThemeContextType>({
         background: '#ffffff',
         text: '#000000',
         color: '#000000',
-        buttonText: '#666666'
+        buttonText: '#666666',
+        secondaryColor: '#ff4c4c',
+        secondaryBackground: '#D3D3D3'
     }
 });
 

@@ -31,9 +31,15 @@ interface JournalEntry {
   created_at: string
 }
 
-export const updateJournalEntry = async (journalEntry: string) => {
+export const updateJournalEntry = async (journalEntry: string, id: string) => {
   const { data: userData } = await supabase.auth.getUser()
-  const JSONJournalEntry = JSON.parse(journalEntry)
+  console.log("userData", userData)
+  console.log("id", id)
+  if (!id) {
+    console.error('No id found')
+    return null
+  }
+
   if (!userData?.user?.id) {
     console.error('No user found')
     return null
@@ -41,8 +47,8 @@ export const updateJournalEntry = async (journalEntry: string) => {
 
   const { data, error } = await supabase
     .from('journal_entries')
-    .update({ text: JSONJournalEntry.text })
-    .eq('id', JSONJournalEntry.id)
+    .update({ text: journalEntry })
+    .eq('id', id)
     .eq('user_id', userData.user.id)
     .select()
 

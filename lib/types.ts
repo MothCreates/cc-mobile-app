@@ -16,4 +16,15 @@ type CalendarDay = {
     timestamp: number
     
 }
-export type { JournalEntry, CalendarDay }
+
+type Theme = {
+    background: string
+    secondaryColor: string
+    text: string
+    buttonText: string
+    color: string
+}
+
+
+
+export type { JournalEntry, CalendarDay, Theme }

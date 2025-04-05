@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, Pressable } from "react-native"
 import { Agenda } from "react-native-calendars"
 import { JournalEntry, CalendarDay } from "@/lib/types"
 import { router } from "expo-router"
+import ThemeContext from "../theme/themeContext"
+import { useContext } from "react"
 /*  BROKEN
           renderDay={(day : Date, item : any) => {
                 {console.log("render day", day)
@@ -28,12 +30,13 @@ interface CalendarProps {
 }
 //TODO change highlighted day to be current day
 const Calendar = ({ entries }: CalendarProps) => {
+    const { theme } = useContext(ThemeContext)
     console.log(entries)
     // Transform entries array into an object with dates as keys
     const items = entries?.reduce((acc, entry) => ({
         ...acc,
-        [entry.date]: [...(acc[entry.date] || []), { name: entry.text }]
-    }), {} as Record<string, {name: string}[]>) || {}
+        [entry.date]: [...(acc[entry.date] || []), { name: entry.text, id: entry.id.toString() }]
+    }), {} as Record<string, {name: string, id: string}[]>) || {}
 
     return (
         <Agenda
@@ -43,13 +46,13 @@ const Calendar = ({ entries }: CalendarProps) => {
 
             // Use the transformed entries
             items={items}
-
+            
             //render the item ????? doesn't work
             renderItem={(item: any, firstItemInDay: boolean) => {
                 console.log("item", item)
                 return (
-                    <View style={styles.itemContainer}>
-                        <Text style={styles.itemText}>{item.name}</Text>
+                    <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
+                        <Text style={[styles.itemText, { color: theme.text }]}>{item.name}</Text>
                     </View>
                 )
             }}
@@ -67,14 +70,14 @@ const Calendar = ({ entries }: CalendarProps) => {
          
 
                 return (
-                    <View style={styles.listContainer}>
+                    <View style={[styles.listContainer, { backgroundColor: theme.background }]}>
                         {dayItems.map((item: any, index: number) => (
-                            <View key={index} style={styles.itemContainer}>
+                            <View key={index} style={[styles.itemContainer, { backgroundColor: theme.secondaryBackground }]}>
                              {/* TODO add make the component a button and add the update prompt functionality */}
                                 <Pressable  onPress={() => {
-                                    router.push(`/components/update?previousJournalEntry=${JSON.stringify(item)}`)
+                                    router.push({pathname: `/components/UpdateJournalEntry`, params: {previousJournalEntry: item.name, id: item.id}})
                                 }}>
-                                    <Text style={styles.itemText}>{item.name}</Text>
+                                    <Text style={[styles.itemText, { color: theme.text }]  }>{item.name}</Text>
                                 </Pressable>
                             </View>
                         ))}
@@ -82,29 +85,25 @@ const Calendar = ({ entries }: CalendarProps) => {
                 )
             }}
 
-            //if there are no journal entries for a day, this is rendered
-            renderEmptyDate={() => (
-                <View style={styles.emptyDate}>
-                    <Text style={styles.emptyDateText}>No entries for this day</Text>
-                </View>
-            )}
-      
-          
-            //if there are no journal entries for a day, this is rendered
-            renderEmptyData={() => (
-                <View style={styles.emptyDate}>
-                    <Text style={styles.emptyDateText}>No entries for this day</Text>
-                </View>
-            )}
+   
 
             theme={{
-           
-                selectedDayBackgroundColor: '#4a90e2',
-                todayTextColor: '#4a90e2',
-                dotColor: '#4a90e2',
-                agendaDayTextColor: '#2d4150',
-                agendaTodayColor: '#4a90e2',
-                agendaKnobColor: '#4a90e2'
+                backgroundColor: theme.background,
+                selectedDayBackgroundColor: theme.secondaryColor,
+                todayTextColor: theme.secondaryColor,
+                dotColor: theme.secondaryColor,
+                agendaDayTextColor: theme.secondaryColor,
+                agendaTodayColor: theme.secondaryColor,
+                agendaKnobColor: theme.secondaryColor,
+                foregroundColor: theme.background,
+                calendarBackground: theme.background,
+                dayTextColor: theme.text,
+                monthTextColor: theme.text,
+                textSectionTitleColor: theme.text,
+                todayDotColor: theme.secondaryColor,
+            
+                
+    
             }}
         />
     )
@@ -167,3 +166,19 @@ const styles = StyleSheet.create({
 })
 
 export default Calendar
+
+        {/*  //if there are no journal entries for a day, this is rendered
+            renderEmptyDate={() => (
+                <View style={[styles.emptyDate, { backgroundColor: theme.background }]}>
+                    <Text style={[styles.emptyDateText, { color: theme.text }]}>No entries for this day</Text>
+                </View>
+            )}
+      
+          
+            //if there are no journal entries for a day, this is rendered
+            renderEmptyData={() => (
+                <View style={[styles.emptyDate, { backgroundColor: theme.background }]}>
+                    <Text style={[styles.emptyDateText, { color: theme.text }]}>No entries for this day</Text>
+                </View>
+            )}
+                **/}

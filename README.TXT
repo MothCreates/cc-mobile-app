@@ -3,9 +3,14 @@ THINGS TO DO
 - add animations to all buttons 
 - add global themes to all components 
 - allow change date when adding a new entry
+- make sure date is localized
+- change update pressable hitbox
+- add scroll view to history
+- fix top calendar bar weird state on update
 
 
 
 
 IF PROBLEMS
 --- with image ->  restart bundle
+--- with theme ->  change themeContext.tsx

@@ -3,12 +3,14 @@ import { View, Text, SafeAreaView, Button, StyleSheet } from "react-native"
 import { supabase } from "@/lib/supabase"
 import { router } from "expo-router"
 
-import { useState, useEffect } from "react"
-import Entry from "./entry"
+import { useState, useEffect, useContext } from "react"
+
 import Calendar from "./calendar"
 import { JournalEntry } from "@/lib/types"
+import ThemeContext from "../theme/themeContext"
 
 const History = () => {
+    const { theme } = useContext(ThemeContext)
     const [entries, setEntries] = useState<JournalEntry[] | null>(null)
 
     const handleSignOut = async () => {
@@ -33,9 +35,9 @@ const History = () => {
     }, [])
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>History</Text>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+            <View style={[styles.titleContainer, { backgroundColor: theme.background }]}>
+                <Text style={[styles.title, { color: theme.secondaryColor }]}>History</Text>
             </View>
             <Calendar entries={entries} />
             <View style={styles.deleteButton}>

@@ -4,12 +4,16 @@ const theme = {
         text: '#000',
         color: '#000',
         buttonText: '#fff',
+        secondaryColor: '#ff4c4c',
+        secondaryBackground: '#D3D3D3',
     },
     dark: {
-        background: '#000',
+        background: '#121212',
         text: '#fff',
         color: '#fff',
-        buttonText: '#000',
+        buttonText: '#121212',
+        secondaryColor: '#ff4c4c',
+        secondaryBackground: '#808080',
     },
 }
 
