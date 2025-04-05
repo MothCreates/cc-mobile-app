@@ -7,7 +7,7 @@ THINGS TO DO
 - change update pressable hitbox
 - add scroll view to history
 - fix top calendar bar weird state on update
-
+- encrypt journal entries https://www.reddit.com/r/Supabase/comments/1eclfk6/supabase_encryption/
 
 
 

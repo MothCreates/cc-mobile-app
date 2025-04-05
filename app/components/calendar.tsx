@@ -4,6 +4,8 @@ import { JournalEntry, CalendarDay } from "@/lib/types"
 import { router } from "expo-router"
 import ThemeContext from "../theme/themeContext"
 import { useContext } from "react"
+import { localizeDate } from "@/lib/functions"
+import { ScrollView } from "react-native"
 /*  BROKEN
           renderDay={(day : Date, item : any) => {
                 {console.log("render day", day)
@@ -28,14 +30,16 @@ import { useContext } from "react"
 interface CalendarProps {
     entries: JournalEntry[] | null;
 }
+
 //TODO change highlighted day to be current day
 const Calendar = ({ entries }: CalendarProps) => {
     const { theme } = useContext(ThemeContext)
-    console.log(entries)
+    /*console.log(entries) */
     // Transform entries array into an object with dates as keys
     const items = entries?.reduce((acc, entry) => ({
+        
         ...acc,
-        [entry.date]: [...(acc[entry.date] || []), { name: entry.text, id: entry.id.toString() }]
+        [localizeDate(entry.date)]: [...(acc[localizeDate(entry.date)] || []), { name: entry.text, id: entry.id.toString() }]
     }), {} as Record<string, {name: string, id: string}[]>) || {}
 
     return (
@@ -50,6 +54,7 @@ const Calendar = ({ entries }: CalendarProps) => {
             //render the item ????? doesn't work
             renderItem={(item: any, firstItemInDay: boolean) => {
                 console.log("item", item)
+             
                 return (
                     <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
                         <Text style={[styles.itemText, { color: theme.text }]}>{item.name}</Text>
@@ -61,16 +66,18 @@ const Calendar = ({ entries }: CalendarProps) => {
              
                 const selectedDate = listProps.selectedDay
             
+                const localizedSelectedDate = localizeDate(selectedDate)
                 // Convert selected date to format that matches your data (YYYY-MM-DD)
                 const formattedSelectedDate = new Date(selectedDate).toISOString().split('T')[0]
+                console.log("localizedSelectedDate", localizedSelectedDate, "selectedDate", selectedDate, "formattedSelectedDate", formattedSelectedDate)
                 
                 // Get items for the selected date
-                const dayItems = listProps.items[formattedSelectedDate] || []
+                const dayItems = listProps.items[localizedSelectedDate] || []
                 
          
 
                 return (
-                    <View style={[styles.listContainer, { backgroundColor: theme.background }]}>
+                    <ScrollView style={[styles.listContainer, { backgroundColor: theme.background }]}>
                         {dayItems.map((item: any, index: number) => (
                             <View key={index} style={[styles.itemContainer, { backgroundColor: theme.secondaryBackground }]}>
                              {/* TODO add make the component a button and add the update prompt functionality */}
@@ -81,7 +88,7 @@ const Calendar = ({ entries }: CalendarProps) => {
                                 </Pressable>
                             </View>
                         ))}
-                    </View>
+                    </ScrollView>
                 )
             }}
 

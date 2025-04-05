@@ -59,3 +59,21 @@ export const updateJournalEntry = async (journalEntry: string, id: string) => {
 
   return data?.[0] as JournalEntry | null
 }
+
+export const localizeDate = (date: string) => {
+  const dateObject = new Date(date)
+  const localizedDate = dateObject.toLocaleDateString()
+  
+  const formattedDate = localizedDate.split("/").reverse()
+  console.log("formattedDate", formattedDate)
+  let year = formattedDate[0]
+  let month = formattedDate[2]
+  if (month.length === 1) {
+    month = "0" + month
+  }
+  let day = formattedDate[1]
+  if (day.length === 1) {
+    day = "0" + day
+  }
+  return `${year}-${month}-${day}`
+}
