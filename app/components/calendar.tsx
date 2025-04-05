@@ -36,11 +36,13 @@ const Calendar = ({ entries }: CalendarProps) => {
     const { theme } = useContext(ThemeContext)
     /*console.log(entries) */
     // Transform entries array into an object with dates as keys
+    // use created at instead of date because date starts at 00:00:00
     const items = entries?.reduce((acc, entry) => ({
         
         ...acc,
-        [localizeDate(entry.date)]: [...(acc[localizeDate(entry.date)] || []), { name: entry.text, id: entry.id.toString() }]
+        [localizeDate(entry.created_at)]: [...(acc[localizeDate(entry.created_at)] || []), { name: entry.text, id: entry.id.toString() }]
     }), {} as Record<string, {name: string, id: string}[]>) || {}
+    console.log("items", items)
 
     return (
         <Agenda
@@ -82,6 +84,7 @@ const Calendar = ({ entries }: CalendarProps) => {
                             <View key={index} style={[styles.itemContainer, { backgroundColor: theme.secondaryBackground }]}>
                              {/* TODO add make the component a button and add the update prompt functionality */}
                                 <Pressable  onPress={() => {
+                             
                                     router.push({pathname: `/components/UpdateJournalEntry`, params: {previousJournalEntry: item.name, id: item.id}})
                                 }}>
                                     <Text style={[styles.itemText, { color: theme.text }]  }>{item.name}</Text>

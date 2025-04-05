@@ -65,7 +65,7 @@ export const localizeDate = (date: string) => {
   const localizedDate = dateObject.toLocaleDateString()
   
   const formattedDate = localizedDate.split("/").reverse()
-  console.log("formattedDate", formattedDate)
+
   let year = formattedDate[0]
   let month = formattedDate[2]
   if (month.length === 1) {
@@ -75,5 +75,6 @@ export const localizeDate = (date: string) => {
   if (day.length === 1) {
     day = "0" + day
   }
+
   return `${year}-${month}-${day}`
 }

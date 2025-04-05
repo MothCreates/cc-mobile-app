@@ -3,14 +3,16 @@ THINGS TO DO
 - add animations to all buttons 
 - add global themes to all components 
 - allow change date when adding a new entry
-- make sure date is localized
 - change update pressable hitbox
-- add scroll view to history
 - fix top calendar bar weird state on update
 - encrypt journal entries https://www.reddit.com/r/Supabase/comments/1eclfk6/supabase_encryption/
+- add delete specific entry button
+- add add entry button to history
+- fix agenda calendar pop up having more days than current month
 
 
 
 IF PROBLEMS
 --- with image ->  restart bundle
 --- with theme ->  change themeContext.tsx
+--- with date  -> check date format

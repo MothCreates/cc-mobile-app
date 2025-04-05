@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
 import { supabase } from '../../lib/supabase'
 import { Button, Input } from '@rneui/themed'
 import { router } from 'expo-router'
+import ThemeContext from '../theme/themeContext'  // Import from local theme context
+
 export default function Auth() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const { theme } = useContext(ThemeContext)
 
   //MAKE SURE AUTH IS NOT BROKEN / EVERYPAGE IS SECURE
   async function signInWithEmail() {
@@ -37,9 +40,9 @@ export default function Auth() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <View style={[styles.verticallySpaced, styles.mt20, { backgroundColor: theme.background }]}>
+        <Input style={[styles.input, { color: theme.text }]}
           label="Email"
           leftIcon={{ type: 'font-awesome', name: 'envelope' }}
           onChangeText={(text) => setEmail(text)}
@@ -49,7 +52,7 @@ export default function Auth() {
         />
       </View>
       <View style={styles.verticallySpaced}>
-        <Input
+        <Input style={[styles.input, { color: theme.text }]}
           label="Password"
           leftIcon={{ type: 'font-awesome', name: 'lock' }}
           onChangeText={(text) => setPassword(text)}
@@ -81,5 +84,8 @@ const styles = StyleSheet.create({
   },
   mt20: {
     marginTop: 20,
+  },
+  input: {
+    color: '#000000',
   },
 })
