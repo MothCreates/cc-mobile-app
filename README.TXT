@@ -9,6 +9,10 @@ THINGS TO DO
 - add delete specific entry button
 - add add entry button to history
 - fix agenda calendar pop up having more days than current month
+- make css height and width dynamic for different screen sizes
+- add modal to delete button 
+- make calendar more compact 
+- make calendar items short 
 
 
 

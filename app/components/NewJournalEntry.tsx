@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, Pressable, } from "react-native";
+import { StyleSheet, Text, TextInput, View, Pressable, SafeAreaView, } from "react-native";
 import { useState, useContext } from "react";
 import { createJournalEntry } from "../../lib/functions";
 import { router } from "expo-router";
@@ -39,7 +39,7 @@ const onSubmit = (prompt: string | null) => {
 // 2. input field in the middle
 // 3. 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.topRow}>
         <ExitButton />
         <Text style={[styles.prompt, { color: theme.color }]}>Vent</Text>
@@ -58,7 +58,7 @@ const onSubmit = (prompt: string | null) => {
   
      </View>
 
-    </View>
+    </SafeAreaView>
   );  
 };
 

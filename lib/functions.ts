@@ -16,14 +16,15 @@ export const fetchJournalEntries = async () => {
   return data
 }
 
-export const deleteJournalEntries = async () => {
-  const { data, error } = await supabase.from('journal_entries').delete().neq('id', 0)
+
+
+export const deleteJournalEntry = async (id: string, user_id: string) => {
+  const { data, error } = await supabase.from('journal_entries').delete().eq('id', id).eq('user_id', user_id)
   if (error) {
-    console.error(error)
+    console.error(error)  
   }
   return data
 }
-
 interface JournalEntry {
   id: number
   text: string

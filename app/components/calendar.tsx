@@ -3,7 +3,7 @@ import { Agenda } from "react-native-calendars"
 import { JournalEntry, CalendarDay } from "@/lib/types"
 import { router } from "expo-router"
 import ThemeContext from "../theme/themeContext"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { localizeDate } from "@/lib/functions"
 import { ScrollView } from "react-native"
 /*  BROKEN
@@ -32,8 +32,14 @@ interface CalendarProps {
 }
 
 //TODO change highlighted day to be current day
-const Calendar = ({ entries }: CalendarProps) => {
+const Calendar = ({ entries,  }: CalendarProps) => {
     const { theme } = useContext(ThemeContext)
+
+    const [selectedDate, setSelectedDate] = useState<string | null>(null)
+
+    useEffect(() => {
+        setSelectedDate(localizeDate(new Date().toISOString()))
+    }, [])
     /*console.log(entries) */
     // Transform entries array into an object with dates as keys
     // use created at instead of date because date starts at 00:00:00
@@ -52,7 +58,7 @@ const Calendar = ({ entries }: CalendarProps) => {
 
             // Use the transformed entries
             items={items}
-            
+            selected={selectedDate}
             //render the item ????? doesn't work
             renderItem={(item: any, firstItemInDay: boolean) => {
                 console.log("item", item)

@@ -1,4 +1,4 @@
-import { fetchJournalEntries, deleteJournalEntries } from "@/lib/functions"
+import { fetchJournalEntries } from "@/lib/functions"
 import { View, Text, SafeAreaView, Button, StyleSheet, Pressable } from "react-native"
 import { supabase } from "@/lib/supabase"
 import { router } from "expo-router"
@@ -8,6 +8,7 @@ import { useState, useEffect, useContext } from "react"
 import Calendar from "./calendar"
 import { JournalEntry } from "@/lib/types"
 import ThemeContext from "../theme/themeContext"
+import AddButton from "./buttons/add"
 
 const History = () => {
     const { theme } = useContext(ThemeContext)
@@ -20,11 +21,7 @@ const History = () => {
         }
     }
 
-    const deleteEntries = async () => {
-        const entries = await deleteJournalEntries()
-        setEntries(entries)
-    }
-
+   
     const fetchEntries = async () => {
         const entries = await fetchJournalEntries()
         setEntries(entries)
@@ -39,11 +36,16 @@ const History = () => {
             <View style={[styles.titleContainer, { backgroundColor: theme.background }]}>
                 <Text style={[styles.title, { color: theme.secondaryColor }]}>History</Text>
             </View>
-            <Calendar entries={entries} />
+            <View style={[styles.calendarContainer, { backgroundColor: theme.background }]}>
+                <Calendar entries={entries} />
+            </View>
            
             <Pressable style={[styles.signOutButton, { backgroundColor: theme.secondaryColor }]}  onPress={handleSignOut} >
                 <Text style={[styles.signOutText, { color: theme.background }]}>Sign Out</Text>
             </Pressable>
+            <View style={styles.addButtonContainer}>
+                <AddButton />
+            </View>
         </SafeAreaView>
     )
 }
@@ -66,6 +68,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+    },
+    calendarContainer: {
+        height: '80%',
+        backgroundColor: '#ffffff',
     },
     title: {
         fontSize: 24,
@@ -98,6 +104,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#ffffff',
     },
+    addButtonContainer: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+    }
 })
 
 export default History

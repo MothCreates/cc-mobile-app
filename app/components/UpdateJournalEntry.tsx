@@ -1,11 +1,13 @@
 import { View, Text, TextInput, SafeAreaView, StyleSheet, Pressable } from "react-native"
 import { useEffect, useState } from "react"
-import { updateJournalEntry } from "../../lib/functions"
+import { deleteJournalEntry, updateJournalEntry } from "../../lib/functions"
 import { router, useLocalSearchParams } from "expo-router"
 import ThemeContext from "../theme/themeContext"
 import { useContext } from "react"
 import DoneButton from "./buttons/done"
 import ExitButton from "./buttons/exit"
+import { supabase } from "@/lib/supabase"
+import DeleteButton from "./buttons/delete"
 
 
 
@@ -29,6 +31,14 @@ const Update: React.FC = () => {
         }
     }
 
+    const handleDeletePress = async () => {
+        const { data: userData } = await supabase.auth.getUser()
+        const user_id = userData.user?.id   
+        deleteJournalEntry(id as string, user_id as string).then(() => {
+            router.push('/components/history')
+        })
+    }   
+
     useEffect(() => {
         console.log("updatedEntry", updatedEntry)
     }, [updatedEntry])
@@ -37,10 +47,12 @@ const Update: React.FC = () => {
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <View style={[styles.ventContainer, { backgroundColor: theme.background }]}>
-            <ExitButton />
+         
+               <DeleteButton onDelete={handleDeletePress} />
                 <Text style={[styles.prompt, { color: theme.color }]}>Vent</Text>
                 <DoneButton onSubmit={handleUpdatePress} newPrompt={updatedEntry} />
             </View>
+         
             <View style={[styles.inputContainer, { backgroundColor: theme.background }]}>
                 <TextInput
                     style={[styles.input, { color: theme.text }]}
