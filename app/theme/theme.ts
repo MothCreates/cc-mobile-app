@@ -6,6 +6,7 @@ const theme = {
         buttonText: '#fff',
         secondaryColor: '#ff4c4c',
         secondaryBackground: '#D3D3D3',
+        name: 'light'
     },
     dark: {
         background: '#121212',
@@ -14,6 +15,7 @@ const theme = {
         buttonText: '#121212',
         secondaryColor: '#ff4c4c',
         secondaryBackground: '#808080',
+        name: 'dark'
     },
 }
 

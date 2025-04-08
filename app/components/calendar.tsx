@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, Pressable } from "react-native"
 import { Agenda } from "react-native-calendars"
-import { JournalEntry, CalendarDay } from "@/lib/types"
+import { JournalEntry, CalendarDay, CalendarItem } from "@/lib/types"
 import { router } from "expo-router"
 import ThemeContext from "../theme/themeContext"
 import { useContext, useEffect, useState } from "react"
-import { localizeDate } from "@/lib/functions"
+import { localizeDateYearMonthDay } from "@/lib/functions"
 import { ScrollView } from "react-native"
+import CalendarEntry from "./CalendarEntry"
 /*  BROKEN
           renderDay={(day : Date, item : any) => {
                 {console.log("render day", day)
@@ -32,22 +33,31 @@ interface CalendarProps {
 }
 
 //TODO change highlighted day to be current day
-const Calendar = ({ entries,  }: CalendarProps) => {
+const Calendar = ({ entries }: CalendarProps) => {
     const { theme } = useContext(ThemeContext)
 
     const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
     useEffect(() => {
-        setSelectedDate(localizeDate(new Date().toISOString()))
+        setSelectedDate(localizeDateYearMonthDay(new Date().toISOString()))
     }, [])
     /*console.log(entries) */
     // Transform entries array into an object with dates as keys
     // use created at instead of date because date starts at 00:00:00
-    const items = entries?.reduce((acc, entry) => ({
-        
-        ...acc,
-        [localizeDate(entry.created_at)]: [...(acc[localizeDate(entry.created_at)] || []), { name: entry.text, id: entry.id.toString() }]
-    }), {} as Record<string, {name: string, id: string}[]>) || {}
+    const items = entries?.reduce((acc, entry: JournalEntry) => {
+        const date = localizeDateYearMonthDay(entry.created_at);
+        return {
+            ...acc,
+            [date]: [
+                ...(acc[date] || []),
+                { 
+                    text: entry.text, 
+                    id: entry.id.toString(),
+                    created_at: entry.created_at
+                }
+            ]
+        };
+    }, {} as Record<string, CalendarItem[]>) || {};
     console.log("items", items)
 
     return (
@@ -64,17 +74,21 @@ const Calendar = ({ entries,  }: CalendarProps) => {
                 console.log("item", item)
              
                 return (
-                    <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
+                    <View style={[styles.itemContainer, { backgroundColor: theme.   background }]}>
                         <Text style={[styles.itemText, { color: theme.text }]}>{item.name}</Text>
                     </View>
                 )
             }}
+           hideExtraDays={true}
+
+            // custom header is where month is rendered in calendar view
+       
 
             renderList={(listProps: any) => {
              
                 const selectedDate = listProps.selectedDay
             
-                const localizedSelectedDate = localizeDate(selectedDate)
+                const localizedSelectedDate = localizeDateYearMonthDay(selectedDate)
                 // Convert selected date to format that matches your data (YYYY-MM-DD)
                 const formattedSelectedDate = new Date(selectedDate).toISOString().split('T')[0]
                 console.log("localizedSelectedDate", localizedSelectedDate, "selectedDate", selectedDate, "formattedSelectedDate", formattedSelectedDate)
@@ -86,16 +100,8 @@ const Calendar = ({ entries,  }: CalendarProps) => {
 
                 return (
                     <ScrollView style={[styles.listContainer, { backgroundColor: theme.background }]}>
-                        {dayItems.map((item: any, index: number) => (
-                            <View key={index} style={[styles.itemContainer, { backgroundColor: theme.secondaryBackground }]}>
-                             {/* TODO add make the component a button and add the update prompt functionality */}
-                                <Pressable  onPress={() => {
-                             
-                                    router.push({pathname: `/components/UpdateJournalEntry`, params: {previousJournalEntry: item.name, id: item.id}})
-                                }}>
-                                    <Text style={[styles.itemText, { color: theme.text }]  }>{item.name}</Text>
-                                </Pressable>
-                            </View>
+                        {dayItems.sort((a: CalendarItem, b: CalendarItem) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()).map((item: CalendarItem, index: number) => (
+                            <CalendarEntry key={index} item={item} />   
                         ))}
                     </ScrollView>
                 )
@@ -132,19 +138,14 @@ const styles = StyleSheet.create({
         marginRight: 15,
         marginTop: 17,
         borderRadius: 8,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
+        borderWidth: 1,
+  
     },
     itemText: {
         fontSize: 15,
         color: '#333',
     },
+
     emptyDate: {
         height: 50,
         justifyContent: 'center',
@@ -178,7 +179,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingTop: 10,
     },
-   
+    monthContainer: {
+        padding: 10,
+        width: 100,
+        height: 100,
+        backgroundColor: 'red',
+    },
+    monthText: {
+        fontSize: 16,
+        color: '#333',
+    },
 })
 
 export default Calendar

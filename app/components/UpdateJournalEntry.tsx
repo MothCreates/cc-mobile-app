@@ -5,7 +5,6 @@ import { router, useLocalSearchParams } from "expo-router"
 import ThemeContext from "../theme/themeContext"
 import { useContext } from "react"
 import DoneButton from "./buttons/done"
-import ExitButton from "./buttons/exit"
 import { supabase } from "@/lib/supabase"
 import DeleteButton from "./buttons/delete"
 

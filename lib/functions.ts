@@ -61,7 +61,7 @@ export const updateJournalEntry = async (journalEntry: string, id: string) => {
   return data?.[0] as JournalEntry | null
 }
 
-export const localizeDate = (date: string) => {
+export const localizeDateYearMonthDay = (date: string) => {
   const dateObject = new Date(date)
   const localizedDate = dateObject.toLocaleDateString()
   
@@ -79,3 +79,4 @@ export const localizeDate = (date: string) => {
 
   return `${year}-${month}-${day}`
 }
+

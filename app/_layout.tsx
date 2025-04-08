@@ -12,6 +12,8 @@ export default function RootLayout() {
     Appearance.setColorScheme(isDark ? "dark" : "light");
   }, [isDark]);
 
+  console.log('isDark', isDark)
+
   return (
     <ThemeContext.Provider value={{ theme: isDark ? theme.dark : theme.light}}>
       <Stack screenOptions={{ 
@@ -21,5 +23,6 @@ export default function RootLayout() {
         }
       }} />
     </ThemeContext.Provider>
+    
   );
 }

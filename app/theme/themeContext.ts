@@ -1,14 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Appearance, useColorScheme } from 'react-native';
+import React, { createContext } from 'react';
+import { Theme } from '@/lib/types';
 
-type Theme = {
-    background: string;
-    text: string;
-    color: string;
-    buttonText: string;
-    secondaryColor: string;
-    secondaryBackground: string;
-}
+
 
 type ThemeContextType = {
     theme: Theme;
@@ -21,7 +14,8 @@ const ThemeContext = createContext<ThemeContextType>({
         color: '#000000',
         buttonText: '#666666',
         secondaryColor: '#ff4c4c',
-        secondaryBackground: '#D3D3D3'
+        secondaryBackground: '#D3D3D3',
+        name: 'light'
     }
 });
 

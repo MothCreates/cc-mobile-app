@@ -2,17 +2,19 @@ import { fetchJournalEntries } from "@/lib/functions"
 import { View, Text, SafeAreaView, Button, StyleSheet, Pressable } from "react-native"
 import { supabase } from "@/lib/supabase"
 import { router } from "expo-router"
-
+import Settings from "./buttons/settings"
 import { useState, useEffect, useContext } from "react"
 
 import Calendar from "./calendar"
 import { JournalEntry } from "@/lib/types"
 import ThemeContext from "../theme/themeContext"
 import AddButton from "./buttons/add"
+import SettingsModal from "./modal/SettingsModal"
 
 const History = () => {
     const { theme } = useContext(ThemeContext)
     const [entries, setEntries] = useState<JournalEntry[] | null>(null)
+    const [modalVisible, setModalVisible] = useState<boolean>(false)
 
     const handleSignOut = async () => {
         const { error } = await supabase.auth.signOut()
@@ -34,15 +36,16 @@ const History = () => {
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <View style={[styles.titleContainer, { backgroundColor: theme.background }]}>
+                <Text style={styles.backButton}>&lt;</Text>
                 <Text style={[styles.title, { color: theme.secondaryColor }]}>History</Text>
+                <Settings setModalVisible={setModalVisible} />
             </View>
             <View style={[styles.calendarContainer, { backgroundColor: theme.background }]}>
                 <Calendar entries={entries} />
             </View>
            
-            <Pressable style={[styles.signOutButton, { backgroundColor: theme.secondaryColor }]}  onPress={handleSignOut} >
-                <Text style={[styles.signOutText, { color: theme.background }]}>Sign Out</Text>
-            </Pressable>
+      
+        <SettingsModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
             <View style={styles.addButtonContainer}>
                 <AddButton />
             </View>
@@ -68,6 +71,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     calendarContainer: {
         height: '80%',
@@ -108,6 +113,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         right: 20,
+    },
+    backButton: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#ffffff',
     }
 })
 

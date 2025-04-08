@@ -20,11 +20,18 @@ type CalendarDay = {
 type Theme = {
     background: string
     secondaryColor: string
+    secondaryBackground: string
     text: string
     buttonText: string
     color: string
+    name: string
+}
+type CalendarItem = {
+    text: string
+    id: string
+    created_at: string
 }
 
 
 
-export type { JournalEntry, CalendarDay, Theme }
+export type { JournalEntry, CalendarDay, Theme, CalendarItem }
