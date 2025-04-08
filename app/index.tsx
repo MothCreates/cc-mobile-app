@@ -16,7 +16,7 @@ export default function Index() {
   
 
   const [isLoading, setIsLoading] = useState(true)
-  const [selectedPrompt, setSelectedPrompt] = useState<string | null>(null)
+  const [selectedPrompt, setSelectedPrompt] = useState<string | null>('add prompt')
   const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
    
-    {isLoading ? <LoadingPage /> : <NewJournalEntry setSelectedPrompt={setSelectedPrompt} isUpdate={false} />}
+    {isLoading ? <LoadingPage /> : <NewJournalEntry   />}
 
     </SafeAreaView>
   );

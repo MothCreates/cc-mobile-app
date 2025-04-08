@@ -13,13 +13,10 @@ const Settings = ({ setModalVisible }: SettingsProps) => {
     return (
         <Pressable 
             onPress={() => setModalVisible(true)}
-            style={({pressed}) => [
+            style={styles.container}
             
-                { 
-                    backgroundColor: pressed ? theme.color : theme.background,
-                    borderColor: theme.color,
-                }
-            ]}
+              
+            
         >
             <View style={styles.contentContainer}>
                 <Image 
@@ -39,6 +36,10 @@ const Settings = ({ setModalVisible }: SettingsProps) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+     justifyContent: 'center',
+     alignItems: 'center',
+    },
   
     contentContainer: {
         flexDirection: 'row',

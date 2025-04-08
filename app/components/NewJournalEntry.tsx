@@ -6,13 +6,13 @@ import ExitButton from "./buttons/exit";
 import DoneButton from "./buttons/done";
 import ThemeContext from "../theme/themeContext";
 interface JournalProps {
-  setSelectedPrompt: (prompt: string) => void
-  isUpdate: boolean
+ 
+
 } 
 
 // this takes a parameter setSelectedPrompt and is a react component with parent app/index.tsx
 //TODO add isUpdate to the component
-const NewJournalEntry : React.FC<JournalProps> = ({ setSelectedPrompt }) => {
+const NewJournalEntry : React.FC<JournalProps> = ({  }) => {
 
    const { theme } = useContext(ThemeContext)
   const [newPrompt, setNewPrompt] = useState<string | null>(null)
@@ -26,7 +26,7 @@ const NewJournalEntry : React.FC<JournalProps> = ({ setSelectedPrompt }) => {
 
 const onSubmit = (prompt: string | null) => {
   if (prompt) {
-    setSelectedPrompt(prompt)
+    
     createJournalEntry(prompt).then((data) => {
       console.log('data', data)
       router.push('/components/history')

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Alert, StyleSheet, View } from 'react-native'
+import { Alert, StyleSheet, View, Pressable, Text } from 'react-native'
 import { supabase } from '../../lib/supabase'
 import { Button, Input } from '@rneui/themed'
 import { router } from 'expo-router'
@@ -63,10 +63,14 @@ export default function Auth() {
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
+        <Pressable onPress={() => signInWithEmail()} style={[styles.button, { backgroundColor: theme.secondaryColor }]}>
+          <Text style={[styles.buttonText, { color: theme.background }]}>Sign in</Text>
+        </Pressable>
       </View>
       <View style={styles.verticallySpaced}>
-        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
+        <Pressable onPress={() => signUpWithEmail()} style={[styles.button, { backgroundColor: theme.secondaryColor }]}>
+          <Text style={[  styles.buttonText, { color: theme.background }]}>Sign up</Text>
+        </Pressable>
       </View>
     </View>
   )
@@ -88,4 +92,15 @@ const styles = StyleSheet.create({
   input: {
     color: '#000000',
   },
+  button: {
+    backgroundColor: '#000000',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  }
 })

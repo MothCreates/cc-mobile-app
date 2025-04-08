@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native"
+import { StyleSheet, View, Text, Pressable } from "react-native"
 import Modal from 'react-native-modal';
 import { useState, useContext } from "react"
 import ThemeContext from "../../theme/themeContext"
@@ -6,9 +6,10 @@ import ThemeContext from "../../theme/themeContext"
 interface SettingsModalProps {
     modalVisible: boolean
     setModalVisible: (visible: boolean) => void
+    handleSignOut: () => void
 }
 
-const SettingsModal = ({ modalVisible, setModalVisible }: SettingsModalProps) => {
+const SettingsModal = ({ modalVisible, setModalVisible, handleSignOut }: SettingsModalProps) => {
 
     const { theme } = useContext(ThemeContext)
     return (
@@ -19,7 +20,10 @@ const SettingsModal = ({ modalVisible, setModalVisible }: SettingsModalProps) =>
             onBackdropPress={() => setModalVisible(false)}
         >
             <View style={[styles.modalContainer, { backgroundColor: theme.background }]}>
-                <Text style={[styles.modalText, { color: theme.text }]} >Settings</Text>
+             
+                <Pressable onPress={handleSignOut} style={styles.signOutButton}>
+                    <Text style={[styles.modalText, { color: theme.text }]} >Sign Out</Text>
+                </Pressable>
             </View>
         </Modal>
         )
@@ -27,7 +31,8 @@ const SettingsModal = ({ modalVisible, setModalVisible }: SettingsModalProps) =>
 
 const styles = StyleSheet.create({
     modalContainer: {
-        flex: 1,
+       
+        height: '60%',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white'
@@ -36,6 +41,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'black'
+    },
+    signOutButton: {
+        backgroundColor: 'red',
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10
     }
 })
 

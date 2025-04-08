@@ -45,7 +45,7 @@ const History = () => {
             </View>
            
       
-        <SettingsModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+        <SettingsModal modalVisible={modalVisible} setModalVisible={setModalVisible} handleSignOut={handleSignOut} />
             <View style={styles.addButtonContainer}>
                 <AddButton />
             </View>
