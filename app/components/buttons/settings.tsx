@@ -24,7 +24,7 @@ const Settings = ({ setModalVisible }: SettingsProps) => {
                     style={[
                         styles.icon, 
                         { 
-                            tintColor: theme.name === 'dark' ? theme.text : theme.background,
+                            tintColor: theme.text, 
                             backgroundColor: theme.background
                         }
                     ]}
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
         marginRight: 12,
-        filter: 'invert(1)', 
+        
     },
     text: {
         fontSize: 16,

@@ -58,7 +58,7 @@ const Calendar = ({ entries }: CalendarProps) => {
             ]
         };
     }, {} as Record<string, CalendarItem[]>) || {};
-    console.log("items", items)
+
 
     return (
         <Agenda
@@ -68,6 +68,7 @@ const Calendar = ({ entries }: CalendarProps) => {
 
             // Use the transformed entries
             items={items}
+            setSelected={setSelectedDate}
             selected={selectedDate}
             //render the item ????? doesn't work
             renderItem={(item: any, firstItemInDay: boolean) => {

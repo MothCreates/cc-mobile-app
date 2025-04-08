@@ -36,7 +36,7 @@ const History = () => {
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <View style={[styles.titleContainer, { backgroundColor: theme.background }]}>
-                <Text style={styles.backButton}>&lt;</Text>
+                <Text style={[styles.backButton, { color: theme.text }]}>&lt;</Text>
                 <Text style={[styles.title, { color: theme.secondaryColor }]}>History</Text>
                 <Settings setModalVisible={setModalVisible} />
             </View>
@@ -63,14 +63,9 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: '#4a90e2',
         marginBottom: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+      
+      
+     
         flexDirection: 'row',
         justifyContent: 'space-between',
     },

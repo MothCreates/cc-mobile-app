@@ -22,7 +22,7 @@ const SettingsModal = ({ modalVisible, setModalVisible, handleSignOut }: Setting
             <View style={[styles.modalContainer, { backgroundColor: theme.background }]}>
              
                 <Pressable onPress={handleSignOut} style={styles.signOutButton}>
-                    <Text style={[styles.modalText, { color: theme.text }]} >Sign Out</Text>
+                    <Text style={[styles.modalText, { color: theme.buttonText }]} >Sign Out</Text>
                 </Pressable>
             </View>
         </Modal>
